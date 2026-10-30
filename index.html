@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  // Set theme before first paint to avoid a flash of the wrong theme.
+  (function () {
+    var stored = localStorage.getItem('theme');
+    var theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+  })();
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Andrew Stuart</title>
+  <meta name="description" content="Andrew Stuart — Software Engineer. Links to GitHub and LinkedIn.">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav container">
+      <span class="logo">AS</span>
+      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle color theme" aria-pressed="false">
+        <svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        <svg class="icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="hero" class="hero container">
+      <div class="hero-avatar" id="avatar-wrap">
+        <div class="avatar-fallback">AS</div>
+        <img src="assets/images/profile.jpg" alt="Andrew Stuart" id="profile-img" onerror="this.remove()">
+      </div>
+      <h1>Andrew Stuart</h1>
+      <p class="tagline">Software Engineer</p>
+      <div class="cta-buttons">
+        <a href="https://github.com/andrewjstuart" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+          <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.98 5.24.98 11.5c0 4.98 3.23 9.2 7.72 10.69.56.1.77-.24.77-.54 0-.27-.01-1.15-.02-2.09-3.14.68-3.8-1.34-3.8-1.34-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.72 1.16 1.72 1.16 1 1.72 2.63 1.22 3.27.93.1-.73.39-1.22.71-1.5-2.51-.29-5.15-1.26-5.15-5.6 0-1.24.44-2.25 1.16-3.04-.12-.29-.5-1.45.11-3.02 0 0 .95-.3 3.12 1.16a10.8 10.8 0 0 1 5.68 0c2.17-1.46 3.12-1.16 3.12-1.16.61 1.57.23 2.73.11 3.02.72.79 1.16 1.8 1.16 3.04 0 4.35-2.64 5.3-5.16 5.58.4.35.76 1.04.76 2.1 0 1.52-.01 2.74-.01 3.11 0 .3.2.65.78.54A10.52 10.52 0 0 0 23 11.5C23 5.24 18.27.5 12 .5Z"/></svg>
+          GitHub
+        </a>
+        <a href="https://linkedin.com/in/andrew-j-stuart" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+          <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45Z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </section>
+
+    <section id="about" class="about container">
+      <h2>About</h2>
+      <!-- Replace with a short 2-3 sentence bio -->
+      <p>Software engineer who enjoys building clean, practical solutions. This space is a quick way to find my work and connect.</p>
+    </section>
+
+    <section id="highlights" class="highlights container">
+      <h2>What I Do</h2>
+      <div class="highlight-grid">
+        <div class="highlight-card">
+          <h3>Backend Development</h3>
+          <p>Replace with your focus area.</p>
+        </div>
+        <div class="highlight-card">
+          <h3>Tooling &amp; Automation</h3>
+          <p>Replace with your focus area.</p>
+        </div>
+        <div class="highlight-card">
+          <h3>Cloud &amp; Infrastructure</h3>
+          <p>Replace with your focus area.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="projects container">
+      <h2>Featured Projects</h2>
+      <div class="project-grid">
+        <a href="https://github.com/andrewjstuart" target="_blank" rel="noopener noreferrer" class="project-card">
+          <h3>Project Name</h3>
+          <p>Short description. Replace with a real repo link.</p>
+        </a>
+        <a href="https://github.com/andrewjstuart" target="_blank" rel="noopener noreferrer" class="project-card">
+          <h3>Project Name</h3>
+          <p>Short description. Replace with a real repo link.</p>
+        </a>
+      </div>
+    </section>
+
+    <section id="contact" class="contact container">
+      <h2>Let's Connect</h2>
+      <div class="contact-links">
+        <a href="https://github.com/andrewjstuart" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+          <svg class="icon icon-lg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.98 5.24.98 11.5c0 4.98 3.23 9.2 7.72 10.69.56.1.77-.24.77-.54 0-.27-.01-1.15-.02-2.09-3.14.68-3.8-1.34-3.8-1.34-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.72 1.16 1.72 1.16 1 1.72 2.63 1.22 3.27.93.1-.73.39-1.22.71-1.5-2.51-.29-5.15-1.26-5.15-5.6 0-1.24.44-2.25 1.16-3.04-.12-.29-.5-1.45.11-3.02 0 0 .95-.3 3.12 1.16a10.8 10.8 0 0 1 5.68 0c2.17-1.46 3.12-1.16 3.12-1.16.61 1.57.23 2.73.11 3.02.72.79 1.16 1.8 1.16 3.04 0 4.35-2.64 5.3-5.16 5.58.4.35.76 1.04.76 2.1 0 1.52-.01 2.74-.01 3.11 0 .3.2.65.78.54A10.52 10.52 0 0 0 23 11.5C23 5.24 18.27.5 12 .5Z"/></svg>
+        </a>
+        <a href="https://linkedin.com/in/andrew-j-stuart" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <svg class="icon icon-lg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45Z"/></svg>
+        </a>
+        <!-- Replace with your preferred contact email -->
+        <a href="mailto:you@andrewjstuart.com" aria-label="Email">
+          <svg class="icon icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; <span id="year"></span> Andrew Stuart</p>
+  </footer>
+
+  <script src="js/main.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+/* Design tokens — edit these to re-theme the whole site */
+:root {
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif;
+  --container-width: 1100px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-full: 999px;
+
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2.5rem;
+  --space-5: 4rem;
+
+  --fz-sm: 0.9rem;
+  --fz-base: 1rem;
+  --fz-lg: 1.25rem;
+  --fz-xl: clamp(1.75rem, 4vw, 2.75rem);
+
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+}
+
+[data-theme="light"] {
+  --color-bg: #ffffff;
+  --color-bg-alt: #f5f6f8;
+  --color-text: #1a1a1a;
+  --color-text-muted: #5a5f6a;
+  --color-primary: #2563eb;
+  --color-primary-hover: #1d4ed8;
+  --color-on-primary: #ffffff;
+  --color-border: #e2e4e9;
+  --color-card-bg: #ffffff;
+  --color-shadow: rgba(15, 17, 21, 0.08);
+}
+
+[data-theme="dark"] {
+  --color-bg: #0f1115;
+  --color-bg-alt: #171a21;
+  --color-text: #e8eaed;
+  --color-text-muted: #9aa0ab;
+  --color-primary: #60a5fa;
+  --color-primary-hover: #3b82f6;
+  --color-on-primary: #0f1115;
+  --color-border: #262a33;
+  --color-card-bg: #1b1e26;
+  --color-shadow: rgba(0, 0, 0, 0.45);
+}
