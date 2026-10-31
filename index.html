@@ -376,18 +376,31 @@
       aria-label="Interactive terminal"
     >
       <div class="terminal-titlebar">
-        <span class="terminal-dot terminal-dot-red"></span>
-        <span class="terminal-dot terminal-dot-yellow"></span>
-        <span class="terminal-dot terminal-dot-green"></span>
-        <span class="terminal-title">guest@andrewjstuart.com: ~</span>
-        <button
-          id="terminal-close"
-          type="button"
-          class="terminal-close"
-          aria-label="Close terminal"
-        >
-          &times;
-        </button>
+        <span class="terminal-title">
+          <svg
+            class="icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <rect x="2" y="4" width="20" height="16" rx="2" />
+            <path d="m6 9 3 3-3 3M12 15h6" />
+          </svg>
+          Windows PowerShell
+        </span>
+        <div class="terminal-controls">
+          <span class="terminal-control" aria-hidden="true">&#8211;</span>
+          <span class="terminal-control" aria-hidden="true">&#9633;</span>
+          <button
+            id="terminal-close"
+            type="button"
+            class="terminal-control terminal-control-close"
+            aria-label="Close terminal"
+          >
+            &times;
+          </button>
+        </div>
       </div>
       <div
         id="terminal-output"
@@ -395,7 +408,7 @@
         aria-live="polite"
       ></div>
       <div class="terminal-input-row">
-        <span class="terminal-prompt">guest@andrewjstuart.com:~$</span>
+        <span class="terminal-prompt">PS C:\Users\Guest&gt;</span>
         <input
           id="terminal-input"
           class="terminal-input"

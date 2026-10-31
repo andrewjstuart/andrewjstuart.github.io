@@ -296,7 +296,7 @@
     function runCommand(raw) {
       var trimmed = raw.trim();
       if (!trimmed) return;
-      print("guest@andrewjstuart.com:~$ " + trimmed, "t-cmd");
+      print("PS C:\\Users\\Guest> " + trimmed, "t-cmd");
       var parts = trimmed.split(/\s+/);
       var name = parts[0].toLowerCase();
       var args = parts.slice(1);
