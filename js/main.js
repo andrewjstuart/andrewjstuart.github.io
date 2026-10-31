@@ -81,7 +81,9 @@
     setAccent(document.documentElement.getAttribute("data-accent") || "orange");
   }
 
-  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var reduceMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
 
   // Scroll-triggered reveal animations
   var revealEls = document.querySelectorAll(".reveal");
@@ -141,7 +143,8 @@
   function onScroll() {
     var scrolled = window.scrollY > 10;
     if (header) header.classList.toggle("is-scrolled", scrolled);
-    if (backToTop) backToTop.classList.toggle("is-visible", window.scrollY > 400);
+    if (backToTop)
+      backToTop.classList.toggle("is-visible", window.scrollY > 400);
   }
 
   document.addEventListener("scroll", onScroll, { passive: true });

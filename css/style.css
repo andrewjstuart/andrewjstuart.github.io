@@ -203,6 +203,12 @@ h3 {
   box-shadow: 0 6px 16px var(--color-shadow);
 }
 
+/* The class rule above beats the browser's default [hidden] rule on specificity;
+   this re-asserts it so toggling the "hidden" attribute actually hides the popover. */
+.accent-popover[hidden] {
+  display: none;
+}
+
 .accent-swatch {
   width: 28px;
   height: 28px;
@@ -234,55 +240,23 @@ h3 {
   position: absolute;
   inset: 0;
   z-index: 0;
-  overflow: hidden;
   pointer-events: none;
-}
-
-.blob {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(60px);
-  opacity: 0.35;
-  background: var(--color-primary);
-  animation: float 16s ease-in-out infinite;
-}
-
-.blob-1 {
-  width: 320px;
-  height: 320px;
-  top: -80px;
-  left: -60px;
-  animation-delay: 0s;
-}
-
-.blob-2 {
-  width: 260px;
-  height: 260px;
-  top: 40%;
-  right: -80px;
-  background: var(--color-primary-hover);
-  animation-delay: -5s;
-}
-
-.blob-3 {
-  width: 220px;
-  height: 220px;
-  bottom: -100px;
-  left: 30%;
-  animation-delay: -10s;
-}
-
-@keyframes float {
-  0%,
-  100% {
-    transform: translate(0, 0) scale(1);
-  }
-  33% {
-    transform: translate(30px, -20px) scale(1.08);
-  }
-  66% {
-    transform: translate(-20px, 25px) scale(0.95);
-  }
+  background:
+    radial-gradient(
+      ellipse 60% 50% at 15% 10%,
+      color-mix(in srgb, var(--color-primary) 16%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 50% 45% at 85% 30%,
+      color-mix(in srgb, var(--color-primary-hover) 12%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 55% 40% at 50% 100%,
+      color-mix(in srgb, var(--color-primary) 10%, transparent),
+      transparent 70%
+    );
 }
 
 .hero-content {
@@ -332,7 +306,8 @@ h3 {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 0 6px color-mix(in srgb, var(--color-primary) 18%, transparent);
+  box-shadow: 0 0 0 6px
+    color-mix(in srgb, var(--color-primary) 18%, transparent);
 }
 
 .avatar-fallback {
@@ -477,8 +452,13 @@ section {
 .highlight-card:hover,
 .project-card:hover {
   transform: translateY(-4px);
-  border-color: color-mix(in srgb, var(--color-primary) 45%, var(--color-border));
-  box-shadow: 0 10px 24px color-mix(in srgb, var(--color-primary) 20%, var(--color-shadow));
+  border-color: color-mix(
+    in srgb,
+    var(--color-primary) 45%,
+    var(--color-border)
+  );
+  box-shadow: 0 10px 24px
+    color-mix(in srgb, var(--color-primary) 20%, var(--color-shadow));
 }
 
 /* Scroll reveal */
