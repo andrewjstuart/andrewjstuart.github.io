@@ -25,6 +25,14 @@
   var yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+  // Fall back to the initials avatar if the profile photo fails to load.
+  var profileImg = document.getElementById("profile-img");
+  if (profileImg) {
+    profileImg.addEventListener("error", function () {
+      profileImg.remove();
+    });
+  }
+
   // Accent color picker
   var accentToggle = document.getElementById("accent-toggle");
   var accentPopover = document.getElementById("accent-popover");
