@@ -28,8 +28,8 @@
   --color-bg-alt: #f5f6f8;
   --color-text: #1a1a1a;
   --color-text-muted: #5a5f6a;
-  --color-primary: #2563eb;
-  --color-primary-hover: #1d4ed8;
+  --color-primary: #c2410c;
+  --color-primary-hover: #9a3412;
   --color-on-primary: #ffffff;
   --color-border: #e2e4e9;
   --color-card-bg: #ffffff;
@@ -41,10 +41,76 @@
   --color-bg-alt: #171a21;
   --color-text: #e8eaed;
   --color-text-muted: #9aa0ab;
-  --color-primary: #60a5fa;
-  --color-primary-hover: #3b82f6;
-  --color-on-primary: #0f1115;
+  --color-primary: #fb923c;
+  --color-primary-hover: #f97316;
+  --color-on-primary: #15161a;
   --color-border: #262a33;
   --color-card-bg: #1b1e26;
   --color-shadow: rgba(0, 0, 0, 0.45);
+}
+
+/* Accent presets — swap the primary color while keeping contrast with its on-primary text.
+   Light theme uses a 600/700-weight shade (readable with white text); dark theme uses a
+   bright 400/500-weight shade (readable with the near-black --color-on-primary above). */
+[data-theme="light"][data-accent="blue"] {
+  --color-primary: #2563eb;
+  --color-primary-hover: #1d4ed8;
+}
+[data-theme="dark"][data-accent="blue"] {
+  --color-primary: #60a5fa;
+  --color-primary-hover: #3b82f6;
+}
+
+[data-theme="light"][data-accent="green"] {
+  --color-primary: #16a34a;
+  --color-primary-hover: #15803d;
+}
+[data-theme="dark"][data-accent="green"] {
+  --color-primary: #4ade80;
+  --color-primary-hover: #22c55e;
+}
+
+[data-theme="light"][data-accent="red"] {
+  --color-primary: #dc2626;
+  --color-primary-hover: #b91c1c;
+}
+[data-theme="dark"][data-accent="red"] {
+  --color-primary: #f87171;
+  --color-primary-hover: #ef4444;
+}
+
+[data-theme="light"][data-accent="purple"] {
+  --color-primary: #7c3aed;
+  --color-primary-hover: #6d28d9;
+}
+[data-theme="dark"][data-accent="purple"] {
+  --color-primary: #a78bfa;
+  --color-primary-hover: #8b5cf6;
+}
+
+[data-theme="light"][data-accent="teal"] {
+  --color-primary: #0d9488;
+  --color-primary-hover: #0f766e;
+}
+[data-theme="dark"][data-accent="teal"] {
+  --color-primary: #2dd4bf;
+  --color-primary-hover: #14b8a6;
+}
+
+[data-theme="light"][data-accent="pink"] {
+  --color-primary: #db2777;
+  --color-primary-hover: #be185d;
+}
+[data-theme="dark"][data-accent="pink"] {
+  --color-primary: #f472b6;
+  --color-primary-hover: #ec4899;
+}
+
+[data-theme="light"][data-accent="gray"] {
+  --color-primary: #4b5563;
+  --color-primary-hover: #374151;
+}
+[data-theme="dark"][data-accent="gray"] {
+  --color-primary: #9ca3af;
+  --color-primary-hover: #6b7280;
 }

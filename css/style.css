@@ -65,6 +65,16 @@ h3 {
   font-size: var(--fz-lg);
 }
 
+.nav-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.accent-picker-wrap {
+  position: relative;
+}
+
 .theme-toggle {
   display: inline-flex;
   align-items: center;
@@ -101,6 +111,43 @@ h3 {
 
 [data-theme="dark"] .theme-toggle .icon-moon {
   display: none;
+}
+
+/* Accent color picker */
+.accent-popover {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-1);
+  padding: var(--space-2);
+  background-color: var(--color-card-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 6px 16px var(--color-shadow);
+}
+
+.accent-swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  background-color: var(--swatch);
+  cursor: pointer;
+  padding: 0;
+  transition:
+    transform var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+.accent-swatch:hover {
+  transform: scale(1.1);
+}
+
+.accent-swatch[aria-pressed="true"] {
+  border-color: var(--color-text);
 }
 
 /* Hero */
@@ -234,6 +281,15 @@ section {
 
 .project-card {
   color: inherit;
+}
+
+.project-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  font-size: var(--fz-sm);
+  font-weight: 600;
 }
 
 .highlight-card:hover,
