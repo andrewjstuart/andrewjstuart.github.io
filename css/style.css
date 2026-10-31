@@ -344,6 +344,33 @@ h3 {
   color: var(--color-text-muted);
   font-size: var(--fz-lg);
   margin: 0;
+  font-family: var(--font-mono);
+}
+
+.tagline .prompt-glyph {
+  color: var(--color-primary);
+  margin-right: 0.4em;
+}
+
+.tagline .caret {
+  display: inline-block;
+  width: 0.55em;
+  height: 1em;
+  margin-left: 0.15em;
+  background-color: var(--color-primary);
+  vertical-align: text-bottom;
+  animation: caret-blink 1s step-end infinite;
+}
+
+@keyframes caret-blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  50.01%,
+  100% {
+    opacity: 0;
+  }
 }
 
 .cta-buttons {
@@ -422,6 +449,14 @@ section {
   padding-block: var(--space-4);
 }
 
+.section-label {
+  font-family: var(--font-mono);
+  font-size: var(--fz-sm);
+  color: var(--color-primary);
+  letter-spacing: 0.04em;
+  margin: 0 0 var(--space-1);
+}
+
 .about p {
   max-width: 60ch;
   color: var(--color-text-muted);
@@ -463,6 +498,24 @@ section {
   margin-top: var(--space-2);
   font-size: var(--fz-sm);
   font-weight: 600;
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: var(--space-2);
+}
+
+.tag {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  padding: 0.25em 0.6em;
+  border-radius: var(--radius-sm);
+  background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  border: 1px solid
+    color-mix(in srgb, var(--color-primary) 25%, var(--color-border));
+  color: var(--color-text);
 }
 
 .highlight-card:hover,
@@ -513,6 +566,7 @@ section {
   color: var(--color-text-muted);
   font-size: var(--fz-sm);
   font-weight: 600;
+  font-family: var(--font-mono);
   margin: 0 0 var(--space-2);
 }
 

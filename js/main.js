@@ -93,6 +93,19 @@
     "(prefers-reduced-motion: reduce)",
   ).matches;
 
+  // Type out the hero tagline like a terminal prompt.
+  var taglineEl = document.getElementById("tagline-text");
+  if (taglineEl && !reduceMotion) {
+    var fullText = taglineEl.textContent;
+    taglineEl.textContent = "";
+    var i = 0;
+    (function typeNext() {
+      taglineEl.textContent = fullText.slice(0, i);
+      i++;
+      if (i <= fullText.length) setTimeout(typeNext, 28);
+    })();
+  }
+
   // Scroll-triggered reveal animations
   var revealEls = document.querySelectorAll(".reveal");
   if (revealEls.length) {
