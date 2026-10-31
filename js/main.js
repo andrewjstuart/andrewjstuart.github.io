@@ -80,4 +80,76 @@
     // Reflect the accent already applied by the inline head script.
     setAccent(document.documentElement.getAttribute("data-accent") || "orange");
   }
+
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Scroll-triggered reveal animations
+  var revealEls = document.querySelectorAll(".reveal");
+  if (revealEls.length) {
+    if (reduceMotion || !("IntersectionObserver" in window)) {
+      revealEls.forEach(function (el) {
+        el.classList.add("is-visible");
+      });
+    } else {
+      var revealObserver = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.15 },
+      );
+      revealEls.forEach(function (el) {
+        revealObserver.observe(el);
+      });
+    }
+  }
+
+  // Scrollspy: highlight the nav link for the section in view
+  var navLinks = document.querySelectorAll("[data-nav-link]");
+  var sections = document.querySelectorAll("main section[id]");
+  if (navLinks.length && sections.length && "IntersectionObserver" in window) {
+    var spyObserver = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          var link = document.querySelector(
+            '[data-nav-link][href="#' + entry.target.id + '"]',
+          );
+          if (!link) return;
+          if (entry.isIntersecting) {
+            navLinks.forEach(function (l) {
+              l.classList.remove("is-active");
+            });
+            link.classList.add("is-active");
+          }
+        });
+      },
+      { rootMargin: "-40% 0px -55% 0px" },
+    );
+    sections.forEach(function (section) {
+      spyObserver.observe(section);
+    });
+  }
+
+  // Header shadow once the page has scrolled
+  var header = document.getElementById("site-header");
+  var backToTop = document.getElementById("back-to-top");
+
+  function onScroll() {
+    var scrolled = window.scrollY > 10;
+    if (header) header.classList.toggle("is-scrolled", scrolled);
+    if (backToTop) backToTop.classList.toggle("is-visible", window.scrollY > 400);
+  }
+
+  document.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  if (backToTop) {
+    backToTop.addEventListener("click", function () {
+      window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+    });
+  }
 })();

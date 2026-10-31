@@ -25,11 +25,26 @@
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
     <link rel="stylesheet" href="css/variables.css" />
     <link rel="stylesheet" href="css/style.css" />
+    <noscript>
+      <style>
+        .reveal {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+      </style>
+    </noscript>
   </head>
   <body>
-    <header class="site-header">
+    <header class="site-header" id="site-header">
       <nav class="nav container">
-        <span class="logo">AS</span>
+        <a href="#hero" class="logo">AS</a>
+        <ul class="nav-links">
+          <li><a href="#hero" data-nav-link>Home</a></li>
+          <li><a href="#about" data-nav-link>About</a></li>
+          <li><a href="#highlights" data-nav-link>Skills</a></li>
+          <li><a href="#projects" data-nav-link>Projects</a></li>
+          <li><a href="#contact" data-nav-link>Contact</a></li>
+        </ul>
         <div class="nav-controls">
           <button
             id="theme-toggle"
@@ -154,7 +169,13 @@
     </header>
 
     <main>
-      <section id="hero" class="hero container">
+      <section id="hero" class="hero">
+        <div class="hero-bg" aria-hidden="true">
+          <span class="blob blob-1"></span>
+          <span class="blob blob-2"></span>
+          <span class="blob blob-3"></span>
+        </div>
+        <div class="hero-content container">
         <div class="hero-avatar" id="avatar-wrap">
           <div class="avatar-fallback">AS</div>
           <img
@@ -194,9 +215,13 @@
             LinkedIn
           </a>
         </div>
+        </div>
+        <a href="#about" class="scroll-indicator" aria-label="Scroll to About section">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6" /></svg>
+        </a>
       </section>
 
-      <section id="about" class="about container">
+      <section id="about" class="about container reveal">
         <h2>About</h2>
         <!-- Replace with a short 2-3 sentence bio -->
         <p>
@@ -206,17 +231,17 @@
       </section>
 
       <section id="highlights" class="highlights container">
-        <h2>What I Do</h2>
+        <h2 class="reveal">What I Do</h2>
         <div class="highlight-grid">
-          <div class="highlight-card">
+          <div class="highlight-card reveal">
             <h3>Backend Development</h3>
             <p>Replace with your focus area.</p>
           </div>
-          <div class="highlight-card">
+          <div class="highlight-card reveal">
             <h3>Tooling &amp; Automation</h3>
             <p>Replace with your focus area.</p>
           </div>
-          <div class="highlight-card">
+          <div class="highlight-card reveal">
             <h3>Cloud &amp; Infrastructure</h3>
             <p>Replace with your focus area.</p>
           </div>
@@ -224,9 +249,9 @@
       </section>
 
       <section id="projects" class="projects container">
-        <h2>Featured Projects</h2>
+        <h2 class="reveal">Featured Projects</h2>
         <div class="project-grid">
-          <div class="project-card">
+          <div class="project-card reveal">
             <h3>Intentional</h3>
             <p>
               Dialogflow ES intent-creation tool with GUI, CLI, and an
@@ -252,7 +277,7 @@
             href="https://github.com/andrewjstuart"
             target="_blank"
             rel="noopener noreferrer"
-            class="project-card"
+            class="project-card reveal"
           >
             <h3>Project Name</h3>
             <p>Short description. Replace with a real repo link.</p>
@@ -260,7 +285,7 @@
         </div>
       </section>
 
-      <section id="contact" class="contact container">
+      <section id="contact" class="contact container reveal">
         <h2>Let's Connect</h2>
         <div class="contact-links">
           <a
@@ -306,6 +331,10 @@
     <footer class="site-footer">
       <p>&copy; <span id="year"></span> Andrew Stuart</p>
     </footer>
+
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 15 6-6 6 6" /></svg>
+    </button>
 
     <script src="js/main.js" defer></script>
   </body>
