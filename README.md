@@ -5,6 +5,16 @@ portfolio. Built with plain HTML/CSS/JS, no build step or dependencies.
 
 **Live:** https://andrewjstuart.com
 
+## Features
+
+- Light/dark theme toggle and an accent color picker (8 presets)
+- Selectable hero background pattern: waveform, grid, rings, noise, or none
+- Typed-out terminal-style tagline and monospace section labels
+- Scroll-reveal animations and scrollspy nav, with `prefers-reduced-motion`
+  respected throughout
+- Interactive terminal easter egg (native `<dialog>`, PowerShell-styled)
+- All picker choices persist via `localStorage` and apply pre-paint (no flash)
+
 ## Stack
 
 - HTML5 + CSS3 (custom properties for theming)
@@ -19,8 +29,11 @@ css/
   variables.css    Design tokens, light/dark theme + accent color overrides
   style.css        Layout and component styles
 js/
-  main.js          Theme/accent toggles, scroll reveal, scrollspy, terminal easter egg
-assets/            Favicon, images
+  main.js          Theme/accent/pattern toggles, typed tagline, scroll reveal,
+                    scrollspy, terminal easter egg
+assets/
+  favicon.svg      Site icon
+  images/          Profile photo + SVG masks used by the hero background patterns
 ```
 
 ## Local preview
