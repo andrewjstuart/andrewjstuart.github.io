@@ -574,3 +574,158 @@ section {
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
+/* Interactive terminal easter egg */
+.terminal-toggle {
+  position: fixed;
+  left: var(--space-3);
+  bottom: var(--space-3);
+  z-index: 15;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg-alt);
+  color: var(--color-text);
+  cursor: pointer;
+  transition:
+    transform var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+.terminal-toggle:hover {
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+}
+
+.terminal-toggle .icon {
+  width: 20px;
+  height: 20px;
+}
+
+.terminal-window {
+  width: min(640px, calc(100vw - 2rem));
+  max-height: min(80vh, calc(100vh - 2rem));
+  margin: auto;
+  padding: 0;
+  border: none;
+  background-color: #0b0e14;
+  color: #d6e2ea;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  font-family:
+    "Cascadia Code", "SFMono-Regular", Consolas, "Courier New", monospace;
+}
+
+/* Scoped to [open] so it doesn't fight the browser's default `dialog:not([open])` rule */
+.terminal-window[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+.terminal-window::backdrop {
+  background-color: rgba(10, 11, 14, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+.terminal-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem var(--space-2);
+  background-color: #161a23;
+  border-bottom: 1px solid #262c38;
+}
+
+.terminal-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+}
+
+.terminal-dot-red {
+  background-color: #ff5f56;
+}
+
+.terminal-dot-yellow {
+  background-color: #ffbd2e;
+}
+
+.terminal-dot-green {
+  background-color: #27c93f;
+}
+
+.terminal-title {
+  flex: 1;
+  text-align: center;
+  font-size: var(--fz-sm);
+  color: #7d8799;
+}
+
+.terminal-close {
+  background: none;
+  border: none;
+  color: #7d8799;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 0.25rem;
+}
+
+.terminal-close:hover {
+  color: #d6e2ea;
+}
+
+.terminal-output {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-2);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.terminal-output .t-line {
+  margin: 0 0 0.2rem;
+}
+
+.terminal-output .t-cmd {
+  color: #8ab4f8;
+}
+
+.terminal-output .t-error {
+  color: #ff8787;
+}
+
+.terminal-output .t-accent {
+  color: var(--color-primary);
+}
+
+.terminal-input-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem var(--space-2);
+  border-top: 1px solid #262c38;
+}
+
+.terminal-prompt {
+  color: var(--color-primary);
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.terminal-input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  color: #d6e2ea;
+  font: inherit;
+  font-size: 0.85rem;
+}

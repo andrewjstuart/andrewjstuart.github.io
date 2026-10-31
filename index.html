@@ -352,6 +352,62 @@
       </svg>
     </button>
 
+    <button
+      id="terminal-toggle"
+      class="terminal-toggle"
+      aria-label="Open interactive terminal"
+      aria-haspopup="dialog"
+    >
+      <svg
+        class="icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <rect x="2" y="4" width="20" height="16" rx="2" />
+        <path d="m6 9 3 3-3 3M12 15h6" />
+      </svg>
+    </button>
+
+    <dialog
+      id="terminal-dialog"
+      class="terminal-window"
+      aria-label="Interactive terminal"
+    >
+      <div class="terminal-titlebar">
+        <span class="terminal-dot terminal-dot-red"></span>
+        <span class="terminal-dot terminal-dot-yellow"></span>
+        <span class="terminal-dot terminal-dot-green"></span>
+        <span class="terminal-title">guest@andrewjstuart.com: ~</span>
+        <button
+          id="terminal-close"
+          type="button"
+          class="terminal-close"
+          aria-label="Close terminal"
+        >
+          &times;
+        </button>
+      </div>
+      <div
+        id="terminal-output"
+        class="terminal-output"
+        aria-live="polite"
+      ></div>
+      <div class="terminal-input-row">
+        <span class="terminal-prompt">guest@andrewjstuart.com:~$</span>
+        <input
+          id="terminal-input"
+          class="terminal-input"
+          type="text"
+          autocomplete="off"
+          autocapitalize="off"
+          spellcheck="false"
+          aria-label="Terminal command input"
+        />
+      </div>
+    </dialog>
+
     <script src="js/main.js" defer></script>
   </body>
 </html>
