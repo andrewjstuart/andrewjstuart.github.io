@@ -230,6 +230,43 @@ h3 {
   border-color: var(--color-text);
 }
 
+/* Hero background pattern picker */
+.pattern-popover {
+  grid-template-columns: 1fr;
+  min-width: 150px;
+}
+
+.pattern-option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  width: 100%;
+  padding: 0.4em 0.6em;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  background: none;
+  color: var(--color-text);
+  font-size: var(--fz-sm);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.pattern-option:hover {
+  background-color: var(--color-bg-alt);
+}
+
+.pattern-option[aria-pressed="true"] {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.pattern-option .icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
 /* Hero */
 .hero {
   position: relative;
@@ -241,35 +278,49 @@ h3 {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background:
-    radial-gradient(
-      ellipse 60% 50% at 15% 10%,
-      color-mix(
+}
+
+/* Hero background pattern options, switchable via the pattern picker */
+[data-pattern="grid"] .hero-bg {
+  background-image: radial-gradient(
+    circle,
+    color-mix(
         in srgb,
         var(--color-primary) var(--hero-wash-strong),
         transparent
-      ),
-      transparent 70%
-    ),
-    radial-gradient(
-      ellipse 50% 45% at 85% 30%,
-      color-mix(
-        in srgb,
-        var(--color-primary-hover) var(--hero-wash-soft),
-        transparent
-      ),
-      transparent 70%
-    ),
-    radial-gradient(
-      ellipse 55% 40% at 50% 100%,
-      color-mix(
-        in srgb,
-        var(--color-primary) var(--hero-wash-soft),
-        transparent
-      ),
-      transparent 70%
-    );
+      )
+      1.5px,
+    transparent 1.5px
+  );
+  background-size: 24px 24px;
+  -webkit-mask-image: radial-gradient(
+    ellipse 70% 65% at 50% 0%,
+    black 30%,
+    transparent 80%
+  );
+  mask-image: radial-gradient(
+    ellipse 70% 65% at 50% 0%,
+    black 30%,
+    transparent 80%
+  );
 }
+
+[data-pattern="waveform"] .hero-bg {
+  background-color: color-mix(
+    in srgb,
+    var(--color-primary) var(--hero-wash-strong),
+    transparent
+  );
+  -webkit-mask-image: url("../assets/images/waveform-mask.svg");
+  mask-image: url("../assets/images/waveform-mask.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 90% 55%;
+  mask-size: 90% 55%;
+  -webkit-mask-position: center 60%;
+  mask-position: center 60%;
+}
+
 
 .hero-content {
   position: relative;

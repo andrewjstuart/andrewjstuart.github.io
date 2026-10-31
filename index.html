@@ -13,6 +13,8 @@
         document.documentElement.setAttribute("data-theme", theme);
         var accent = localStorage.getItem("accent") || "orange";
         document.documentElement.setAttribute("data-accent", accent);
+        var pattern = localStorage.getItem("pattern") || "waveform";
+        document.documentElement.setAttribute("data-pattern", pattern);
       })();
     </script>
     <meta charset="UTF-8" />
@@ -163,6 +165,90 @@
                 aria-label="Gray accent"
                 aria-pressed="false"
               ></button>
+            </div>
+          </div>
+          <div class="accent-picker-wrap">
+            <button
+              id="pattern-toggle"
+              class="theme-toggle"
+              aria-label="Choose hero background style"
+              aria-expanded="false"
+            >
+              <svg
+                class="icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M2 12h3l2-7 3 14 3-10 2 5h7" />
+              </svg>
+            </button>
+            <div
+              id="pattern-popover"
+              class="accent-popover pattern-popover"
+              hidden
+            >
+              <button
+                type="button"
+                class="pattern-option"
+                data-pattern="waveform"
+                aria-pressed="false"
+              >
+                <svg
+                  class="icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M2 12h3l2-7 3 14 3-10 2 5h7" />
+                </svg>
+                Waveform
+              </button>
+              <button
+                type="button"
+                class="pattern-option"
+                data-pattern="grid"
+                aria-pressed="false"
+              >
+                <svg
+                  class="icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="5" cy="5" r="1.5" fill="currentColor" />
+                  <circle cx="12" cy="5" r="1.5" fill="currentColor" />
+                  <circle cx="19" cy="5" r="1.5" fill="currentColor" />
+                  <circle cx="5" cy="12" r="1.5" fill="currentColor" />
+                  <circle cx="12" cy="12" r="1.5" fill="currentColor" />
+                  <circle cx="19" cy="12" r="1.5" fill="currentColor" />
+                  <circle cx="5" cy="19" r="1.5" fill="currentColor" />
+                  <circle cx="12" cy="19" r="1.5" fill="currentColor" />
+                  <circle cx="19" cy="19" r="1.5" fill="currentColor" />
+                </svg>
+                Grid
+              </button>
+              <button
+                type="button"
+                class="pattern-option"
+                data-pattern="none"
+                aria-pressed="false"
+              >
+                <svg
+                  class="icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="m5 5 14 14" />
+                </svg>
+                None
+              </button>
             </div>
           </div>
         </div>

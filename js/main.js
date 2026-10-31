@@ -89,6 +89,64 @@
     setAccent(document.documentElement.getAttribute("data-accent") || "orange");
   }
 
+  // Hero background pattern picker
+  var patternToggle = document.getElementById("pattern-toggle");
+  var patternPopover = document.getElementById("pattern-popover");
+
+  function setPattern(pattern) {
+    document.documentElement.setAttribute("data-pattern", pattern);
+    localStorage.setItem("pattern", pattern);
+    if (!patternPopover) return;
+    var options = patternPopover.querySelectorAll(".pattern-option");
+    for (var i = 0; i < options.length; i++) {
+      var isSelected = options[i].getAttribute("data-pattern") === pattern;
+      options[i].setAttribute("aria-pressed", isSelected ? "true" : "false");
+    }
+  }
+
+  function closePatternPopover() {
+    patternPopover.hidden = true;
+    patternToggle.setAttribute("aria-expanded", "false");
+  }
+
+  if (patternToggle && patternPopover) {
+    patternToggle.addEventListener("click", function (event) {
+      event.stopPropagation();
+      var isOpen = !patternPopover.hidden;
+      patternPopover.hidden = isOpen;
+      patternToggle.setAttribute("aria-expanded", isOpen ? "false" : "true");
+    });
+
+    patternPopover.addEventListener("click", function (event) {
+      var option = event.target.closest(".pattern-option");
+      if (!option) return;
+      setPattern(option.getAttribute("data-pattern"));
+      closePatternPopover();
+    });
+
+    document.addEventListener("click", function (event) {
+      if (
+        !patternPopover.hidden &&
+        !patternPopover.contains(event.target) &&
+        event.target !== patternToggle
+      ) {
+        closePatternPopover();
+      }
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && !patternPopover.hidden) {
+        closePatternPopover();
+        patternToggle.focus();
+      }
+    });
+
+    // Reflect the pattern already applied by the inline head script.
+    setPattern(
+      document.documentElement.getAttribute("data-pattern") || "waveform",
+    );
+  }
+
   var reduceMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)",
   ).matches;
