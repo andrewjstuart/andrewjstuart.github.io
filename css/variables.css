@@ -34,6 +34,8 @@
   --color-border: #e2e4e9;
   --color-card-bg: #ffffff;
   --color-shadow: rgba(15, 17, 21, 0.08);
+  --hero-wash-strong: 38%;
+  --hero-wash-soft: 28%;
 }
 
 [data-theme="dark"] {
@@ -47,6 +49,8 @@
   --color-border: #262a33;
   --color-card-bg: #1b1e26;
   --color-shadow: rgba(0, 0, 0, 0.45);
+  --hero-wash-strong: 18%;
+  --hero-wash-soft: 13%;
 }
 
 /* Accent presets — swap the primary color while keeping contrast with its on-primary text.

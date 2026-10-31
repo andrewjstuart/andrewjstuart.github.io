@@ -244,17 +244,29 @@ h3 {
   background:
     radial-gradient(
       ellipse 60% 50% at 15% 10%,
-      color-mix(in srgb, var(--color-primary) 16%, transparent),
+      color-mix(
+        in srgb,
+        var(--color-primary) var(--hero-wash-strong),
+        transparent
+      ),
       transparent 70%
     ),
     radial-gradient(
       ellipse 50% 45% at 85% 30%,
-      color-mix(in srgb, var(--color-primary-hover) 12%, transparent),
+      color-mix(
+        in srgb,
+        var(--color-primary-hover) var(--hero-wash-soft),
+        transparent
+      ),
       transparent 70%
     ),
     radial-gradient(
       ellipse 55% 40% at 50% 100%,
-      color-mix(in srgb, var(--color-primary) 10%, transparent),
+      color-mix(
+        in srgb,
+        var(--color-primary) var(--hero-wash-soft),
+        transparent
+      ),
       transparent 70%
     );
 }
