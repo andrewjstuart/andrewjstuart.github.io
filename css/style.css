@@ -321,6 +321,57 @@ h3 {
   mask-position: center 60%;
 }
 
+[data-pattern="rings"] .hero-bg {
+  background-image: repeating-radial-gradient(
+    circle at 50% 22%,
+    color-mix(
+        in srgb,
+        var(--color-primary) var(--hero-wash-strong),
+        transparent
+      )
+      0,
+    color-mix(
+        in srgb,
+        var(--color-primary) var(--hero-wash-strong),
+        transparent
+      )
+      2px,
+    transparent 2px,
+    transparent 38px
+  );
+  -webkit-mask-image: radial-gradient(
+    ellipse 75% 70% at 50% 22%,
+    black 10%,
+    transparent 80%
+  );
+  mask-image: radial-gradient(
+    ellipse 75% 70% at 50% 22%,
+    black 10%,
+    transparent 80%
+  );
+}
+
+[data-pattern="noise"] .hero-bg {
+  background-color: color-mix(
+    in srgb,
+    var(--color-primary) var(--hero-wash-soft),
+    transparent
+  );
+  background-image: url("../assets/images/noise-mask.svg");
+  background-size: 180px 180px;
+  background-repeat: repeat;
+  background-blend-mode: overlay;
+  -webkit-mask-image: radial-gradient(
+    ellipse 80% 70% at 50% 20%,
+    black 20%,
+    transparent 85%
+  );
+  mask-image: radial-gradient(
+    ellipse 80% 70% at 50% 20%,
+    black 20%,
+    transparent 85%
+  );
+}
 
 .hero-content {
   position: relative;
