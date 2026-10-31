@@ -436,6 +436,10 @@ section {
   margin-top: var(--space-3);
 }
 
+.project-grid {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
 .highlight-card,
 .project-card {
   background-color: var(--color-card-bg);
@@ -471,6 +475,50 @@ section {
   );
   box-shadow: 0 10px 24px
     color-mix(in srgb, var(--color-primary) 20%, var(--color-shadow));
+}
+
+/* Experience timeline */
+.timeline {
+  list-style: none;
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  border-left: 2px solid var(--color-border);
+}
+
+.timeline-item {
+  position: relative;
+  padding: 0 0 var(--space-4) var(--space-4);
+}
+
+.timeline-item:last-child {
+  padding-bottom: 0;
+}
+
+.timeline-marker {
+  position: absolute;
+  top: 0.4em;
+  left: -7px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-bg);
+}
+
+.timeline-content h3 {
+  margin: 0 0 var(--space-1);
+}
+
+.timeline-meta {
+  color: var(--color-text-muted);
+  font-size: var(--fz-sm);
+  font-weight: 600;
+  margin: 0 0 var(--space-2);
+}
+
+.timeline-content p:not(.timeline-meta) {
+  max-width: 65ch;
+  color: var(--color-text-muted);
 }
 
 /* Scroll reveal */
@@ -568,10 +616,6 @@ section {
 /* Tablet and up */
 @media (min-width: 600px) {
   .highlight-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .project-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 
