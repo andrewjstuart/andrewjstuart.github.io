@@ -631,6 +631,33 @@ section {
   color: var(--color-text);
 }
 
+.project-interfaces {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: var(--space-2);
+}
+
+.interface-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  padding: 0.25em 0.6em;
+  border-radius: var(--radius-sm);
+  background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  border: 1px solid
+    color-mix(in srgb, var(--color-primary) 25%, var(--color-border));
+  color: var(--color-text);
+}
+
+.interface-badge .icon {
+  width: 14px;
+  height: 14px;
+  color: var(--color-primary);
+}
+
 .highlight-card:hover,
 .project-card:hover {
   transform: translateY(-4px);
@@ -700,6 +727,26 @@ section {
 .reveal.is-visible {
   opacity: 1;
   transform: none;
+}
+
+.section-top-link {
+  display: flex;
+  align-items: center;
+  gap: 0.35em;
+  width: fit-content;
+  margin: var(--space-4) 0 0 auto;
+  font-family: var(--font-mono);
+  font-size: var(--fz-sm);
+  color: var(--color-text-muted);
+}
+
+.section-top-link:hover {
+  color: var(--color-primary);
+}
+
+.section-top-link .icon {
+  width: 16px;
+  height: 16px;
 }
 
 /* Back to top */
