@@ -747,6 +747,7 @@ section {
 .section-top-link .icon {
   width: 16px;
   height: 16px;
+  color: var(--color-primary);
 }
 
 /* Back to top */
