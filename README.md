@@ -3,7 +3,7 @@
 Source for my personal site — a living resume rather than a traditional project
 portfolio. Built with plain HTML/CSS/JS, no build step or dependencies.
 
-**Live:** https://andrewjstuart.com
+**Live:** <https://andrewjstuart.com>
 
 ## Features
 
@@ -23,7 +23,7 @@ portfolio. Built with plain HTML/CSS/JS, no build step or dependencies.
 
 ## Structure
 
-```
+```text
 index.html        Page markup (hero, about, skills, experience, projects, contact)
 css/
   variables.css    Design tokens, light/dark theme + accent color overrides
