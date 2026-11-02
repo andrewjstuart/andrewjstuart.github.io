@@ -1,4 +1,10 @@
-/* Design tokens — edit these to re-theme the whole site */
+/* ============================================================
+   DESIGN TOKENS
+   These are the site's shared "settings" — fonts, spacing, radii,
+   font sizes, and animation speeds. Change a value here and it
+   updates everywhere that variable is used, instead of hunting
+   through style.css for every place a size/color is repeated.
+   ============================================================ */
 :root {
   --font-sans:
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
@@ -25,6 +31,9 @@
   --transition-base: 250ms ease;
 }
 
+/* Color palette for light mode. main.js sets data-theme="light" or
+   "dark" on <html> based on the user's choice (or their OS setting
+   the first time they visit). */
 [data-theme="light"] {
   --color-bg: #ffffff;
   --color-bg-alt: #f5f6f8;
@@ -40,6 +49,9 @@
   --hero-wash-soft: 28%;
 }
 
+/* Color palette for dark mode — same variable names as light mode
+   above, just different values, so the rest of the CSS never needs
+   its own if-dark/if-light logic. */
 [data-theme="dark"] {
   --color-bg: #0f1115;
   --color-bg-alt: #171a21;
@@ -55,9 +67,14 @@
   --hero-wash-soft: 13%;
 }
 
-/* Accent presets — swap the primary color while keeping contrast with its on-primary text.
-   Light theme uses a 600/700-weight shade (readable with white text); dark theme uses a
-   bright 400/500-weight shade (readable with the near-black --color-on-primary above). */
+/* Accent presets — the picker in the nav sets data-accent="orange|blue|..."
+   on <html>. Each block below only applies when BOTH data-theme and
+   data-accent match, and just overrides --color-primary/
+   --color-primary-hover — every other color (background, text, borders,
+   etc.) still comes from the light/dark palette above.
+   Light theme uses a 600/700-weight shade (readable with white text);
+   dark theme uses a bright 400/500-weight shade (readable with the
+   near-black --color-on-primary above). */
 [data-theme="light"][data-accent="blue"] {
   --color-primary: #2563eb;
   --color-primary-hover: #1d4ed8;

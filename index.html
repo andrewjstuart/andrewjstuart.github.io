@@ -25,6 +25,8 @@
       content="Andrew Stuart — Software Engineer specializing in contact center, IVR, and conversational AI systems."
     />
     <meta name="theme-color" content="#0f1115" />
+    <!-- Social share / SEO metadata: shows up as the title, description, and
+         preview image when this link is shared, e.g. on LinkedIn or Slack. -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://andrewjstuart.com" />
     <meta property="og:title" content="Andrew Stuart — Software Engineer" />
@@ -60,6 +62,8 @@
     </noscript>
   </head>
   <body>
+    <!-- Site header: logo, nav links, and the theme/accent/pattern picker
+         buttons (their popovers/dropdowns are wired up in js/main.js). -->
     <header class="site-header" id="site-header">
       <nav class="nav container">
         <a href="#hero" class="logo">AS</a>
@@ -325,6 +329,7 @@
     </header>
 
     <main>
+      <!-- Hero: name, typed tagline, avatar photo, GitHub/LinkedIn buttons. -->
       <section id="hero" class="hero">
         <div class="hero-bg" aria-hidden="true"></div>
         <div class="hero-content container">
@@ -391,6 +396,7 @@
         </a>
       </section>
 
+      <!-- About: short personal summary paragraph. -->
       <section id="about" class="about container reveal">
         <h2 class="section-title">
           <span class="prompt-path" aria-hidden="true">~/</span>about<span
@@ -421,6 +427,7 @@
         </a>
       </section>
 
+      <!-- Skills: a grid of tag pills grouped by category. -->
       <section id="highlights" class="highlights container">
         <h2 class="section-title reveal">
           <span class="prompt-path" aria-hidden="true">~/</span>skills<span
@@ -502,6 +509,7 @@
         </a>
       </section>
 
+      <!-- Experience: work history timeline, newest role first. -->
       <section id="experience" class="experience container">
         <h2 class="section-title reveal">
           <span class="prompt-path" aria-hidden="true">~/</span>experience<span
@@ -591,6 +599,7 @@
         </a>
       </section>
 
+      <!-- Projects: real side projects, each as a card. -->
       <section id="projects" class="projects container">
         <h2 class="section-title reveal">
           <span class="prompt-path" aria-hidden="true">~/</span>projects<span
@@ -601,7 +610,24 @@
         </h2>
         <div class="project-grid">
           <div class="project-card reveal">
-            <h3>Intentional</h3>
+            <div class="project-title">
+              <img
+                src="assets/images/intentional-icon.svg"
+                alt=""
+                class="project-icon"
+                width="32"
+                height="32"
+              />
+              <h3>Intentional</h3>
+              <a
+                class="project-version"
+                data-gh-release="andrewjstuart/intentional-py"
+                href="https://github.com/andrewjstuart/intentional-py/releases/latest"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Releases</a
+              >
+            </div>
             <p>
               Builds Dialogflow ES intents from a config file and training
               phrase files — validate, extract from Excel, and
@@ -682,6 +708,7 @@
         </a>
       </section>
 
+      <!-- Contact: GitHub/LinkedIn/email icon links. -->
       <section id="contact" class="contact container reveal">
         <h2 class="section-title">
           <span class="prompt-path" aria-hidden="true">~/</span>contact<span
@@ -747,6 +774,8 @@
       <p>&copy; <span id="year"></span> Andrew Stuart</p>
     </footer>
 
+    <!-- Floating "back to top" button, fixed to the bottom-right corner;
+         hidden until you scroll down (see js/main.js). -->
     <button id="back-to-top" class="back-to-top" aria-label="Back to top">
       <svg
         class="icon"
@@ -759,6 +788,9 @@
       </svg>
     </button>
 
+    <!-- Fake "PowerShell" terminal easter egg: this button opens the
+         <dialog> below it (see the terminal section in js/main.js for
+         the pretend commands it understands). -->
     <button
       id="terminal-toggle"
       class="terminal-toggle"

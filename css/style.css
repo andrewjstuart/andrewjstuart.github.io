@@ -1,4 +1,14 @@
-/* Reset & base */
+/* ============================================================
+   STYLE.CSS — layout & component styles, organized roughly in the
+   order things appear on the page: resets, header/nav, hero,
+   buttons, section headings, skills, experience, projects,
+   contact, footer, responsive breakpoints, then the terminal
+   easter egg at the very end.
+   Colors, fonts, and spacing come from variables.css — look there
+   first if you just want to change a color or size everywhere.
+   ============================================================ */
+
+/* Reset & base — removes default browser spacing/box-sizing quirks */
 * {
   box-sizing: border-box;
 }
@@ -28,6 +38,8 @@ section[id] {
   scroll-margin-top: 76px;
 }
 
+/* Respect the OS-level "reduce motion" accessibility setting: turns off
+   smooth scrolling and shrinks every animation/transition to near-zero. */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -64,7 +76,8 @@ h3 {
   margin: 0 0 var(--space-2);
 }
 
-/* Header & nav */
+/* Header & nav — the sticky bar at the top with the logo, nav links,
+   and the theme/accent/pattern picker buttons. */
 .site-header {
   position: sticky;
   top: 0;
@@ -133,6 +146,8 @@ h3 {
   right: 0;
 }
 
+/* Nav links are hidden below 720px (no mobile menu built — the page is
+   still fully usable via scrolling) and shown as a row above that. */
 @media (min-width: 720px) {
   .nav-links {
     display: flex;
@@ -149,6 +164,8 @@ h3 {
   position: relative;
 }
 
+/* The light/dark theme button. It shows a sun or moon icon — whichever
+   one represents the theme you'd switch TO, not the one you're on. */
 .theme-toggle {
   display: inline-flex;
   align-items: center;
@@ -187,7 +204,9 @@ h3 {
   display: none;
 }
 
-/* Accent color picker */
+/* Accent color picker — the popover grid of color swatch buttons that
+   opens from the nav. Clicking a swatch sets data-accent on <html>
+   (see variables.css for what each accent name actually changes). */
 .accent-popover {
   position: absolute;
   top: calc(100% + 8px);
@@ -230,7 +249,9 @@ h3 {
   border-color: var(--color-text);
 }
 
-/* Hero background pattern picker */
+/* Hero background pattern picker — same popover idea as the accent
+   picker above, but each button sets data-pattern on <html> to choose
+   which hero background style (waveform/grid/rings/noise/none) shows. */
 .pattern-popover {
   grid-template-columns: 1fr;
   min-width: 150px;
@@ -267,12 +288,16 @@ h3 {
   flex-shrink: 0;
 }
 
-/* Hero */
+/* Hero — the big intro section at the top of the page (name, tagline,
+   avatar, GitHub/LinkedIn buttons). */
 .hero {
   position: relative;
   overflow: hidden;
 }
 
+/* .hero-bg is an empty, absolutely-positioned layer behind the hero
+   content. Each [data-pattern="..."] rule below decorates it
+   differently depending on which background style is selected. */
 .hero-bg {
   position: absolute;
   inset: 0;
@@ -280,7 +305,11 @@ h3 {
   pointer-events: none;
 }
 
-/* Hero background pattern options, switchable via the pattern picker */
+/* Hero background pattern options, switchable via the pattern picker.
+   Each one uses a CSS "mask" (an invisible stencil) so only a shape —
+   dots, a waveform, grain — shows through a solid accent-colored fill.
+   That's why these react live to theme/accent changes with no images
+   to swap: only the fill color and the stencil shape ever differ. */
 [data-pattern="grid"] .hero-bg {
   background-image: radial-gradient(
     circle,
@@ -489,6 +518,7 @@ h3 {
   margin-top: var(--space-2);
 }
 
+/* Shared button styles for the GitHub/LinkedIn CTAs in the hero. */
 .btn {
   position: relative;
   display: inline-flex;
@@ -509,6 +539,8 @@ h3 {
   transform: translateY(-1px);
 }
 
+/* The diagonal "shine" sweep on hover: a gradient sits just off-screen
+   (::after) and slides across the button on :hover below. */
 .btn::after {
   content: "";
   position: absolute;
@@ -552,11 +584,15 @@ h3 {
   color: var(--color-primary);
 }
 
-/* Section spacing */
+/* Section spacing — consistent vertical padding for every <section>. */
 section {
   padding-block: var(--space-4);
 }
 
+/* Every section heading (e.g. "~/about$") shares this style: monospace,
+   accent-colored, not bold. The markup splits it into spans so the
+   "~/" prefix can be dimmed independently — see .prompt-path below —
+   while the section name and trailing "$" stay the accent color. */
 .section-title {
   font-family: var(--font-mono);
   font-size: var(--fz-lg);
@@ -575,7 +611,9 @@ section {
   color: var(--color-text-muted);
 }
 
-/* Highlights & projects grids */
+/* Highlights (skills) & projects grids — both sections use the same
+   responsive card-grid layout; .project-grid below just overrides the
+   column sizing since project cards are wider than skill cards. */
 .highlight-grid,
 .project-grid {
   display: grid;
@@ -604,6 +642,45 @@ section {
   color: inherit;
 }
 
+.project-title {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.project-title h3 {
+  margin: 0;
+}
+
+.project-icon {
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+}
+
+/* Badge showing the repo's latest GitHub release tag (e.g. "v1.5.1"),
+   filled in by main.js; defaults to linking straight to the releases
+   page with a plain "Releases" label if that lookup fails. */
+.project-version {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  padding: 0.2em 0.55em;
+  border-radius: var(--radius-sm);
+  background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  border: 1px solid
+    color-mix(in srgb, var(--color-primary) 25%, var(--color-border));
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  transition:
+    color var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+.project-version:hover {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
 .project-links {
   display: flex;
   flex-wrap: wrap;
@@ -613,6 +690,8 @@ section {
   font-weight: 600;
 }
 
+/* .tag-list / .tag — the pill-shaped labels used in the Skills grid
+   (e.g. "JavaScript", "Terraform"). */
 .tag-list {
   display: flex;
   flex-wrap: wrap;
@@ -631,6 +710,9 @@ section {
   color: var(--color-text);
 }
 
+/* .project-interfaces / .interface-badge — same pill style as .tag
+   above, but each one also has an icon; used on the Intentional card
+   to show it ships as a Desktop GUI, a CLI, and a Web build. */
 .project-interfaces {
   display: flex;
   flex-wrap: wrap;
@@ -670,7 +752,10 @@ section {
     color-mix(in srgb, var(--color-primary) 20%, var(--color-shadow));
 }
 
-/* Experience timeline */
+/* Experience timeline — the vertical line + dot layout for the work
+   history list. .timeline draws the vertical line (border-left); each
+   .timeline-item is one job, and .timeline-marker is the small accent
+   dot positioned to sit right on top of that line. */
 .timeline {
   list-style: none;
   margin: var(--space-3) 0 0;
@@ -715,7 +800,11 @@ section {
   color: var(--color-text-muted);
 }
 
-/* Scroll reveal */
+/* Scroll reveal — elements start invisible/shifted down; main.js watches
+   for them scrolling into view and adds .is-visible, which this
+   transition then animates in. (Disabled entirely for reduced-motion
+   users, and for no-JS visitors via the <noscript> override in
+   index.html.) */
 .reveal {
   opacity: 0;
   transform: translateY(18px);
@@ -729,6 +818,9 @@ section {
   transform: none;
 }
 
+/* Small "Back to top" text link at the bottom of each section
+   (separate from the floating round button below, which only appears
+   once you've scrolled down the page). */
 .section-top-link {
   display: flex;
   align-items: center;
@@ -750,7 +842,9 @@ section {
   color: var(--color-primary);
 }
 
-/* Back to top */
+/* Back to top — the floating round button, fixed to the bottom-right
+   of the viewport. Hidden until you scroll down (.is-visible toggled
+   by main.js), then click to smooth-scroll back to the hero. */
 .back-to-top {
   position: fixed;
   right: var(--space-3);
@@ -797,7 +891,7 @@ section {
   color: var(--color-text-muted);
 }
 
-/* Contact */
+/* Contact — the row of GitHub/LinkedIn/email icon links at the bottom. */
 .contact-links {
   display: flex;
   flex-wrap: wrap;
@@ -819,7 +913,7 @@ section {
   height: 28px;
 }
 
-/* Footer */
+/* Footer — the copyright line at the very bottom of the page. */
 .site-footer {
   text-align: center;
   padding-block: var(--space-3);
@@ -828,6 +922,9 @@ section {
   font-size: var(--fz-sm);
 }
 
+/* Responsive breakpoints — the skills grid gains columns as the
+   viewport widens (1 column by default, defined earlier; 2 here; 3
+   on desktop). */
 /* Tablet and up */
 @media (min-width: 600px) {
   .highlight-grid {
@@ -846,7 +943,12 @@ section {
   }
 }
 
-/* Interactive terminal easter egg */
+/* ============================================================
+   INTERACTIVE TERMINAL EASTER EGG
+   A fake "Windows PowerShell" window (a native <dialog>) that opens
+   from the bottom-left button. Purely for fun — main.js implements a
+   small set of fake commands (help, theme, accent, whoami, etc.).
+   ============================================================ */
 .terminal-toggle {
   position: fixed;
   left: var(--space-3);
@@ -877,6 +979,7 @@ section {
   height: 20px;
 }
 
+/* The dialog "window" itself, styled to look like a dark terminal app. */
 .terminal-window {
   width: min(640px, calc(100vw - 2rem));
   max-height: min(80vh, calc(100vh - 2rem));
@@ -903,6 +1006,8 @@ section {
   backdrop-filter: blur(4px);
 }
 
+/* Fake titlebar with the app name and minimize/maximize/close buttons
+   (minimize/maximize are purely decorative; only close is functional). */
 .terminal-titlebar {
   display: flex;
   align-items: center;
@@ -964,6 +1069,8 @@ button.terminal-control {
   color: #ffffff;
 }
 
+/* Scrolling log of past commands/responses; main.js appends one
+   .t-line per entry, color-coded via .t-cmd/.t-error/.t-accent. */
 .terminal-output {
   flex: 1;
   overflow-y: auto;
@@ -990,6 +1097,7 @@ button.terminal-control {
   color: var(--color-primary);
 }
 
+/* The bottom "PS C:\Users\Guest>" prompt row where you type commands. */
 .terminal-input-row {
   display: flex;
   align-items: center;

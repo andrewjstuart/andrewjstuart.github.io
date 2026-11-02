@@ -1,4 +1,15 @@
 (function () {
+  // ============================================================
+  // main.js — everything here runs once, after the page loads. It's
+  // one big function (an "IIFE") instead of separate modules since
+  // there's no build step; sections below are roughly in the order
+  // a visitor would notice them: theme toggle, profile image
+  // fallback, accent picker, hero pattern picker, typed tagline,
+  // scroll animations, nav highlighting, and the terminal easter
+  // egg at the very end.
+  // ============================================================
+
+  // --- Light/dark theme toggle ---------------------------------
   var toggle = document.getElementById("theme-toggle");
 
   function applyTheme(theme) {
@@ -22,9 +33,11 @@
     );
   }
 
+  // --- Footer copyright year -----------------------------------
   var yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+  // --- Profile photo fallback -----------------------------------
   // Fall back to the initials avatar if the profile photo fails to load.
   var profileImg = document.getElementById("profile-img");
   if (profileImg) {
@@ -33,7 +46,58 @@
     });
   }
 
-  // Accent color picker
+  // --- Live GitHub release version badge ---------------------------
+  // Any element with data-gh-release="owner/repo" gets its text/link
+  // swapped to the repo's latest release tag (e.g. "v1.5.1"), fetched
+  // from the public GitHub API. Cached in localStorage for an hour so
+  // repeat visits don't re-fetch; if the lookup fails for any reason
+  // (offline, rate-limited, etc.) the badge just keeps its default
+  // "Releases" label and link straight to the releases page.
+  var releaseBadges = document.querySelectorAll("[data-gh-release]");
+  releaseBadges.forEach(function (badge) {
+    var repo = badge.getAttribute("data-gh-release");
+    var cacheKey = "gh-release:" + repo;
+    var oneHour = 60 * 60 * 1000;
+    var cached = null;
+    try {
+      cached = JSON.parse(localStorage.getItem(cacheKey));
+    } catch (e) {
+      cached = null;
+    }
+
+    function render(data) {
+      badge.textContent = data.tag;
+      badge.href = data.url;
+    }
+
+    if (cached && Date.now() - cached.fetchedAt < oneHour) {
+      render(cached);
+      return;
+    }
+
+    fetch("https://api.github.com/repos/" + repo + "/releases/latest")
+      .then(function (res) {
+        if (!res.ok) throw new Error("bad response");
+        return res.json();
+      })
+      .then(function (json) {
+        var data = {
+          tag: json.tag_name,
+          url: json.html_url,
+          fetchedAt: Date.now(),
+        };
+        localStorage.setItem(cacheKey, JSON.stringify(data));
+        render(data);
+      })
+      .catch(function () {
+        // Leave the default label/link from index.html in place.
+      });
+  });
+
+  // --- Accent color picker ---------------------------------------
+  // Dropdown of color swatches in the nav; clicking one sets
+  // data-accent on <html>, which variables.css uses to repaint
+  // --color-primary everywhere it's used.
   var accentToggle = document.getElementById("accent-toggle");
   var accentPopover = document.getElementById("accent-popover");
 
@@ -89,7 +153,10 @@
     setAccent(document.documentElement.getAttribute("data-accent") || "orange");
   }
 
-  // Hero background pattern picker
+  // --- Hero background pattern picker -----------------------------
+  // Same idea as the accent picker above, but sets data-pattern on
+  // <html> to choose the hero's background style (see the
+  // .hero-bg rules in style.css).
   var patternToggle = document.getElementById("pattern-toggle");
   var patternPopover = document.getElementById("pattern-popover");
 
@@ -147,10 +214,14 @@
     );
   }
 
+  // Checked before running any animation below, so visitors who've
+  // asked their OS for reduced motion skip the typing effect, the
+  // scroll-reveal animations, and smooth-scrolling.
   var reduceMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)",
   ).matches;
 
+  // --- Typed hero tagline ------------------------------------------
   // Type out the hero tagline like a terminal prompt.
   var taglineEl = document.getElementById("tagline-text");
   if (taglineEl && !reduceMotion) {
@@ -164,7 +235,11 @@
     })();
   }
 
-  // Scroll-triggered reveal animations
+  // --- Scroll-triggered reveal animations ---------------------------
+  // Elements with the .reveal class start hidden (see style.css); as
+  // each one scrolls into view, this adds .is-visible to fade/slide it
+  // in, then stops watching it (no need to keep checking an element
+  // once it's already been revealed).
   var revealEls = document.querySelectorAll(".reveal");
   if (revealEls.length) {
     if (reduceMotion || !("IntersectionObserver" in window)) {
@@ -189,7 +264,10 @@
     }
   }
 
-  // Scrollspy: highlight the nav link for the section in view
+  // --- Scrollspy: highlight the nav link for the section in view ---
+  // Watches each <section id="..."> and highlights the matching nav
+  // link whenever that section is the one currently in the middle of
+  // the viewport.
   var navLinks = document.querySelectorAll("[data-nav-link]");
   var sections = document.querySelectorAll("main section[id]");
   if (navLinks.length && sections.length && "IntersectionObserver" in window) {
@@ -215,7 +293,9 @@
     });
   }
 
-  // Header shadow once the page has scrolled
+  // --- Sticky header shadow + floating "back to top" button --------
+  // Adds a drop shadow to the header and reveals the round back-to-top
+  // button once you've scrolled past a small threshold.
   var header = document.getElementById("site-header");
   var backToTop = document.getElementById("back-to-top");
 
@@ -235,7 +315,14 @@
     });
   }
 
+  // ============================================================
   // Interactive terminal easter egg
+  // A fake "PowerShell" window (a native <dialog>) with a small set
+  // of pretend commands below (help, cd, theme, accent, etc.).
+  // Nothing here is a real shell — it just calls the same
+  // applyTheme/setAccent/scrollToSection functions used elsewhere
+  // on the page.
+  // ============================================================
   var terminalToggle = document.getElementById("terminal-toggle");
   var terminalDialog = document.getElementById("terminal-dialog");
   var terminalClose = document.getElementById("terminal-close");
@@ -243,6 +330,8 @@
   var terminalInput = document.getElementById("terminal-input");
 
   if (terminalToggle && terminalDialog && terminalInput && terminalOutput) {
+    // Command history (for the Up/Down arrow recall below) and the
+    // list of accent names the fake `accent <color>` command accepts.
     var history = [];
     var historyIndex = -1;
     var validAccents = [
@@ -256,6 +345,8 @@
       "gray",
     ];
 
+    // Appends one line of output to the terminal, optionally tinted
+    // with a class (t-cmd/t-error/t-accent — see style.css).
     function print(text, className) {
       var line = document.createElement("p");
       line.className = "t-line" + (className ? " " + className : "");
@@ -269,6 +360,7 @@
       print("Type 'help' to see what it can do.");
     }
 
+    // Used by the `cd <section>` command to jump to a section id.
     function scrollToSection(id) {
       var section = document.getElementById(id);
       if (!section) return false;
@@ -279,6 +371,9 @@
       return true;
     }
 
+    // Every supported command, keyed by name. Each function receives
+    // the rest of the typed line split into words (e.g. `cd about` ->
+    // args = ["about"]).
     var commands = {
       help: function () {
         print("Available commands:");
@@ -372,6 +467,8 @@
     };
     commands.close = commands.exit;
 
+    // Parses one line of typed input and runs the matching command
+    // above, or prints an error if it doesn't exist.
     function runCommand(raw) {
       var trimmed = raw.trim();
       if (!trimmed) return;
@@ -389,6 +486,8 @@
       }
     }
 
+    // Opens the dialog as a modal, prints the welcome message the
+    // first time, and focuses the input so you can start typing.
     function openTerminal() {
       terminalDialog.showModal();
       document.body.style.overflow = "hidden";
@@ -397,6 +496,7 @@
       terminalInput.focus();
     }
 
+    // --- Wiring: open/close the dialog from its various triggers -----
     terminalToggle.addEventListener("click", openTerminal);
     terminalClose.addEventListener("click", function () {
       terminalDialog.close();
@@ -414,6 +514,8 @@
       terminalToggle.focus();
     });
 
+    // Enter runs the typed command; Up/Down arrows recall previous
+    // commands, like a real shell's history.
     terminalInput.addEventListener("keydown", function (event) {
       if (event.key === "Enter") {
         var value = terminalInput.value;
