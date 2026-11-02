@@ -980,7 +980,11 @@ section {
 }
 
 /* The dialog "window" itself, styled to look like a dark terminal app. */
+/* --terminal-accent is swapped by main.js's applyPersona() so the
+   PowerShell/bash/mac "skins" each get their own icon/prompt color;
+   the default below is the PowerShell blue. */
 .terminal-window {
+  --terminal-accent: #3b9eff;
   width: min(640px, calc(100vw - 2rem));
   max-height: min(80vh, calc(100vh - 2rem));
   margin: auto;
@@ -1014,6 +1018,7 @@ section {
   padding-left: var(--space-2);
   background-color: #1f1f1f;
   border-bottom: 1px solid #2d2d2d;
+  cursor: move;
 }
 
 .terminal-title {
@@ -1028,7 +1033,7 @@ section {
 .terminal-title .icon {
   width: 15px;
   height: 15px;
-  color: #3b9eff;
+  color: var(--terminal-accent);
 }
 
 .terminal-controls {
@@ -1086,7 +1091,7 @@ button.terminal-control {
 }
 
 .terminal-output .t-cmd {
-  color: #3b9eff;
+  color: var(--terminal-accent);
 }
 
 .terminal-output .t-error {
@@ -1095,6 +1100,12 @@ button.terminal-control {
 
 .terminal-output .t-accent {
   color: var(--color-primary);
+}
+
+/* Used by the `matrix` easter-egg command — always classic green,
+   regardless of persona/accent. */
+.terminal-output .t-matrix {
+  color: #39ff14;
 }
 
 /* The bottom "PS C:\Users\Guest>" prompt row where you type commands. */
@@ -1107,7 +1118,7 @@ button.terminal-control {
 }
 
 .terminal-prompt {
-  color: #3b9eff;
+  color: var(--terminal-accent);
   font-size: 0.85rem;
   white-space: nowrap;
 }
@@ -1120,4 +1131,58 @@ button.terminal-control {
   color: #cccccc;
   font: inherit;
   font-size: 0.85rem;
+  caret-color: var(--terminal-accent);
+}
+
+/* The `shell mac` persona: traffic-light dots on the left and a
+   centered title, like macOS's Terminal.app, instead of the default
+   Windows-style icon + right-aligned window controls. */
+.terminal-window--mac .terminal-title .icon {
+  display: none;
+}
+
+.terminal-window--mac .terminal-title {
+  justify-content: center;
+}
+
+.terminal-window--mac .terminal-controls {
+  order: -1;
+  height: auto;
+  gap: 8px;
+  padding: 0 0 0 var(--space-1);
+}
+
+.terminal-window--mac .terminal-control {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  font-size: 0;
+  padding: 0;
+}
+
+.terminal-window--mac .terminal-control:nth-child(1) {
+  background-color: #febc2e;
+}
+
+.terminal-window--mac .terminal-control:nth-child(2) {
+  background-color: #28c840;
+}
+
+.terminal-window--mac .terminal-control-close {
+  background-color: #ff5f57;
+}
+
+.terminal-window--mac .terminal-control:nth-child(1):hover {
+  background-color: #febc2e;
+  opacity: 0.8;
+}
+
+.terminal-window--mac .terminal-control:nth-child(2):hover {
+  background-color: #28c840;
+  opacity: 0.8;
+}
+
+.terminal-window--mac .terminal-control-close:hover {
+  background-color: #ff5f57;
+  opacity: 0.8;
 }

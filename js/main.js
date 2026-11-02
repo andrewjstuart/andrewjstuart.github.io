@@ -345,19 +345,104 @@
       "gray",
     ];
 
+    // The "shell <name>" command swaps the window's whole look —
+    // titlebar label, prompt string, and icon/prompt color (via the
+    // --terminal-accent CSS variable) — between a few OS personas.
+    // "mac" is the one tied to the live site accent color, so
+    // changing the nav's accent picker also recolors that persona.
+    var personas = {
+      powershell: {
+        label: "Windows PowerShell",
+        prompt: "PS C:\\Users\\Guest>",
+        accentColor: "#3b9eff",
+      },
+      bash: {
+        label: "bash — guest@andrewjstuart",
+        prompt: "guest@andrewjstuart:~$",
+        accentColor: "#4ade80",
+      },
+      mac: {
+        label: "Terminal — zsh",
+        prompt: "guest@andrewjstuart ~ %",
+        accentColor: "var(--color-primary)",
+      },
+    };
+    var currentPersona = "powershell";
+    var terminalTitleText = document.querySelector(".terminal-title-text");
+    var terminalPromptEl = document.querySelector(".terminal-prompt");
+
+    // Picks a sensible first-visit persona from the visitor's own OS,
+    // so a Mac visitor sees a Mac-flavored terminal by default; they
+    // can still override it any time with `shell <name>`.
+    function detectDefaultPersona() {
+      var ua = navigator.userAgent || "";
+      if (/Mac/i.test(ua) && !/iPhone|iPad/i.test(ua)) return "mac";
+      if (/Linux/i.test(ua) && !/Android/i.test(ua)) return "bash";
+      return "powershell";
+    }
+
+    function applyPersona(name) {
+      var persona = personas[name] ? name : "powershell";
+      currentPersona = persona;
+      localStorage.setItem("terminal-shell", persona);
+      terminalDialog.classList.remove(
+        "terminal-window--powershell",
+        "terminal-window--bash",
+        "terminal-window--mac",
+      );
+      terminalDialog.classList.add("terminal-window--" + persona);
+      terminalDialog.style.setProperty(
+        "--terminal-accent",
+        personas[persona].accentColor,
+      );
+      if (terminalTitleText)
+        terminalTitleText.textContent = personas[persona].label;
+      if (terminalPromptEl)
+        terminalPromptEl.textContent = personas[persona].prompt;
+    }
+
+    applyPersona(
+      localStorage.getItem("terminal-shell") || detectDefaultPersona(),
+    );
+
     // Appends one line of output to the terminal, optionally tinted
-    // with a class (t-cmd/t-error/t-accent — see style.css).
+    // with a class (t-cmd/t-error/t-accent/t-matrix — see style.css).
     function print(text, className) {
       var line = document.createElement("p");
       line.className = "t-line" + (className ? " " + className : "");
       line.textContent = text;
       terminalOutput.appendChild(line);
       terminalOutput.scrollTop = terminalOutput.scrollHeight;
+      return line;
     }
 
     function printWelcome() {
       print("Welcome. This is not a real shell, just a fun way to get around.");
       print("Type 'help' to see what it can do.");
+    }
+
+    // A quick fake "boot" shown the first time the terminal is opened
+    // (or after `clear`), before the welcome message. Skipped (printed
+    // instantly) for visitors who've asked their OS for reduced motion.
+    function printBoot() {
+      var lines = [
+        "AndrewOS 1.0 booting...",
+        "Mounting /skills ...",
+        "Starting " + personas[currentPersona].label + " ...",
+      ];
+      if (reduceMotion) {
+        lines.forEach(function (line) {
+          print(line, "t-accent");
+        });
+        printWelcome();
+        return;
+      }
+      lines.forEach(function (line, index) {
+        setTimeout(function () {
+          print(line, "t-accent");
+          if (index === lines.length - 1) setTimeout(printWelcome, 150);
+        }, index * 150);
+      });
     }
 
     // Used by the `cd <section>` command to jump to a section id.
@@ -370,6 +455,19 @@
       });
       return true;
     }
+
+    // Canned contents for the `cat <file>` command below — not a real
+    // filesystem, just a couple of plain-text blurbs to print.
+    var files = {
+      "resume.txt":
+        "Andrew Stuart -- Software Engineer\n" +
+        "15+ years in speech tech and contact centers, from legacy IVR " +
+        "platforms to cloud-based conversational AI. Currently learning " +
+        "AWS Connect and cloud infrastructure.",
+      "skills.txt":
+        "JavaScript, Node.js, Python, PHP, SQL, Perl, Java, AWS Connect, " +
+        "Terraform, Azure DevOps, GCP, CI/CD, Git",
+    };
 
     // Every supported command, keyed by name. Each function receives
     // the rest of the typed line split into words (e.g. `cd about` ->
@@ -387,6 +485,10 @@
           "contact              open an email draft",
           "theme <light|dark>   switch the color theme",
           "accent <color>       set the accent color (orange, blue, green, red, purple, teal, pink, gray)",
+          "shell <name>         change the terminal's look (powershell, bash, mac)",
+          "neofetch             show a little system-info summary",
+          "banner <text>        print boxed, letter-spaced text",
+          "cat <file>           print resume.txt or skills.txt",
           "whoami               ...",
           "date                 print the current date and time",
           "clear                clear the screen",
@@ -455,8 +557,117 @@
       date: function () {
         print(new Date().toString());
       },
-      sudo: function () {
+      sudo: function (args) {
+        if (args.join(" ").toLowerCase() === "make me a sandwich") {
+          print("Okay.", "t-accent");
+          return;
+        }
         print("Nice try. Permission denied for guest.", "t-error");
+      },
+      shell: function (args) {
+        var names = Object.keys(personas);
+        var value = (args[0] || "").toLowerCase();
+        if (!value) {
+          print(
+            "Current shell: " +
+              currentPersona +
+              " (try: shell <" +
+              names.join("|") +
+              ">)",
+          );
+          return;
+        }
+        if (names.indexOf(value) === -1) {
+          print("usage: shell <" + names.join("|") + ">", "t-error");
+          return;
+        }
+        applyPersona(value);
+        print("Switched to " + personas[value].label + ".", "t-accent");
+      },
+      neofetch: function () {
+        var theme =
+          document.documentElement.getAttribute("data-theme") || "dark";
+        var accent =
+          document.documentElement.getAttribute("data-accent") || "orange";
+        var art = ["+---------+", "|   >_    |", "+---------+"];
+        var info = [
+          "guest@andrewjstuart",
+          "-------------------",
+          "OS: AndrewOS 1.0",
+          "Host: andrewjstuart.com",
+          "Shell: " + personas[currentPersona].label,
+          "Theme: " + theme,
+          "Accent: " + accent,
+          "Languages: JavaScript, Python, SQL, Java",
+        ];
+        var rows = Math.max(art.length, info.length);
+        for (var i = 0; i < rows; i++) {
+          print((art[i] || "           ") + "   " + (info[i] || ""));
+        }
+      },
+      banner: function (args) {
+        var text = (args.join(" ") || "ANDREW STUART").toUpperCase();
+        var spaced = text.split("").join(" ");
+        var border = "+" + "-".repeat(spaced.length + 2) + "+";
+        print(border);
+        print("| " + spaced + " |");
+        print(border);
+      },
+      cat: function (args) {
+        var name = args[0];
+        if (!name) {
+          print("usage: cat <file>", "t-error");
+          return;
+        }
+        if (!Object.prototype.hasOwnProperty.call(files, name)) {
+          print("cat: " + name + ": No such file or directory", "t-error");
+          return;
+        }
+        files[name].split("\n").forEach(function (line) {
+          print(line);
+        });
+      },
+      sl: function () {
+        // Classic shell typo joke: `sl` instead of `ls` shows a train.
+        var line = print("====D", "t-accent");
+        if (reduceMotion) {
+          print("(Did you mean 'ls'?)");
+          return;
+        }
+        var frame = 0;
+        var timer = setInterval(function () {
+          frame += 1;
+          line.textContent = new Array(frame).join(" ") + "====D";
+          terminalOutput.scrollTop = terminalOutput.scrollHeight;
+          if (frame >= 20) {
+            clearInterval(timer);
+            print("(Did you mean 'ls'?)");
+          }
+        }, 60);
+      },
+      matrix: function () {
+        function randomLine() {
+          var out = "";
+          var len = 20 + Math.floor(Math.random() * 20);
+          for (var i = 0; i < len; i++) {
+            out += Math.random() < 0.5 ? "0" : "1";
+          }
+          return out;
+        }
+        if (reduceMotion) {
+          print(randomLine(), "t-matrix");
+          print("Wake up, Andrew...", "t-accent");
+          return;
+        }
+        var ticks = 0;
+        var timer = setInterval(function () {
+          print(randomLine(), "t-matrix");
+          ticks += 1;
+          if (ticks >= 10) {
+            clearInterval(timer);
+            print("Wake up, Andrew...", "t-accent");
+          }
+        }, 80);
       },
       clear: function () {
         terminalOutput.innerHTML = "";
@@ -472,7 +683,7 @@
     function runCommand(raw) {
       var trimmed = raw.trim();
       if (!trimmed) return;
-      print("PS C:\\Users\\Guest> " + trimmed, "t-cmd");
+      print(personas[currentPersona].prompt + " " + trimmed, "t-cmd");
       var parts = trimmed.split(/\s+/);
       var name = parts[0].toLowerCase();
       var args = parts.slice(1);
@@ -491,7 +702,7 @@
     function openTerminal() {
       terminalDialog.showModal();
       document.body.style.overflow = "hidden";
-      if (!terminalOutput.childElementCount) printWelcome();
+      if (!terminalOutput.childElementCount) printBoot();
       terminalInput.value = "";
       terminalInput.focus();
     }
@@ -512,10 +723,50 @@
     terminalDialog.addEventListener("close", function () {
       document.body.style.overflow = "";
       terminalToggle.focus();
+      // Forget any dragged position so the window re-centers next time it opens.
+      terminalDialog.style.position = "";
+      terminalDialog.style.margin = "";
+      terminalDialog.style.left = "";
+      terminalDialog.style.top = "";
     });
 
+    // Lets you drag the fake window around by its titlebar, like a real
+    // one. Clicks on the minimize/maximize/close controls are ignored.
+    var titlebar = document.querySelector(".terminal-titlebar");
+    var dragOffset = null;
+    if (titlebar) {
+      titlebar.addEventListener("mousedown", function (event) {
+        if (event.target.closest(".terminal-controls")) return;
+        var rect = terminalDialog.getBoundingClientRect();
+        dragOffset = {
+          x: event.clientX - rect.left,
+          y: event.clientY - rect.top,
+        };
+        terminalDialog.style.position = "fixed";
+        terminalDialog.style.margin = "0";
+        terminalDialog.style.left = rect.left + "px";
+        terminalDialog.style.top = rect.top + "px";
+        event.preventDefault();
+      });
+
+      document.addEventListener("mousemove", function (event) {
+        if (!dragOffset) return;
+        var maxLeft = window.innerWidth - terminalDialog.offsetWidth;
+        var maxTop = window.innerHeight - terminalDialog.offsetHeight;
+        var left = Math.min(Math.max(0, event.clientX - dragOffset.x), maxLeft);
+        var top = Math.min(Math.max(0, event.clientY - dragOffset.y), maxTop);
+        terminalDialog.style.left = left + "px";
+        terminalDialog.style.top = top + "px";
+      });
+
+      document.addEventListener("mouseup", function () {
+        dragOffset = null;
+      });
+    }
+
     // Enter runs the typed command; Up/Down arrows recall previous
-    // commands, like a real shell's history.
+    // commands, like a real shell's history; Tab completes a command
+    // name, like a real shell's tab-completion.
     terminalInput.addEventListener("keydown", function (event) {
       if (event.key === "Enter") {
         var value = terminalInput.value;
@@ -539,6 +790,22 @@
         } else {
           historyIndex = history.length;
           terminalInput.value = "";
+        }
+      } else if (event.key === "Tab") {
+        event.preventDefault();
+        var typedWord = terminalInput.value.split(/\s+/)[0].toLowerCase();
+        if (!typedWord) return;
+        var matches = Object.keys(commands).filter(function (name) {
+          return name.indexOf(typedWord) === 0;
+        });
+        if (matches.length === 1) {
+          terminalInput.value = matches[0] + " ";
+        } else if (matches.length > 1) {
+          print(
+            personas[currentPersona].prompt + " " + terminalInput.value,
+            "t-cmd",
+          );
+          print(matches.join("  "));
         }
       }
     });
